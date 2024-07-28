@@ -22,5 +22,10 @@ class AppAssets {
   static const String carMarkerPending= "${AppPaths.iconsPath}/car_marker_pending.png";
   static const String carMarkerUnknown= "${AppPaths.iconsPath}/car_marker_pending.png";
 
+
+  static const String carMoveMarker= "${AppPaths.iconsPath}/car_move_marker.png";
+  static const String carPickUpMarker= "${AppPaths.iconsPath}/car_pick_up_marker.png";
+  static const String carDropOffMarker= "${AppPaths.iconsPath}/car_drop_off_marker.png";
+
   static const String googleMapStyle = "${AppPaths.jsonsPath}/google_map_style.png";
 }
