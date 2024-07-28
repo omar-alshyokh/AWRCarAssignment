@@ -11,7 +11,7 @@ import 'package:car_tracking_app/core/widgets/common/app_loading_indicator.dart'
 import 'package:car_tracking_app/core/widgets/common/app_map_widget.dart';
 import 'package:car_tracking_app/core/widgets/common/custom_app_bar.dart';
 import 'package:car_tracking_app/features/car/domain/entity/car_entity.dart';
-import 'package:car_tracking_app/features/map/presentation/bloc/map_bloc.dart';
+import 'package:car_tracking_app/features/map/presentation/bloc/overview_mab/map_bloc.dart';
 import 'package:car_tracking_app/features/map/presentation/widgets/map_car_horizontal_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
