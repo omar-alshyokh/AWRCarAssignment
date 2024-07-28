@@ -29,6 +29,10 @@ import '../../features/home/data/datasources/post_remote_datasource.dart'
     as _i873;
 import '../../features/home/domain/repository/post_repository_impl.dart'
     as _i897;
+import '../../features/map/domin/repository/location_simulation_repo.dart'
+    as _i265;
+import '../../features/map/presentation/bloc/tracking_location/car_tracking_bloc.dart'
+    as _i505;
 import '../helper/shared_preference_helper.dart' as _i460;
 import '../managers/analytics/central/analytics_central.dart' as _i8;
 import '../managers/analytics/central/analytics_central_impl.dart' as _i706;
@@ -72,6 +76,8 @@ Future<_i174.GetIt> init(
       () => _i1000.AnalyticsParamsBuilder());
   gh.singleton<_i991.CarFirebaseDatasource>(
       () => _i991.CarFirebaseDatasource());
+  gh.singleton<_i265.LocationSimulationRepo>(
+      () => _i265.LocationSimulationRepo());
   gh.lazySingleton<_i361.Dio>(() => networkModule.dio);
   gh.lazySingleton<_i486.AppNavigationService>(
       () => _i486.AppNavigationService());
@@ -85,6 +91,8 @@ Future<_i174.GetIt> init(
         gh<_i798.FirebaseAnalyticsService>(),
         gh<_i1049.MixPanelAnalyticsService>(),
       ));
+  gh.singleton<_i505.CarLiveTrackingBloc>(
+      () => _i505.CarLiveTrackingBloc(gh<_i265.LocationSimulationRepo>()));
   gh.singleton<_i455.DioClient>(() => _i455.DioClient(gh<_i361.Dio>()));
   gh.lazySingleton<_i460.SharedPreferenceHelper>(
       () => _i460.SharedPreferenceHelper(gh<_i460.SharedPreferences>()));
