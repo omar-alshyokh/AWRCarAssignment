@@ -1,3 +1,4 @@
+import 'package:car_tracking_app/core/service/logger_service.dart';
 import 'package:car_tracking_app/core/utils/map_location_util.dart';
 import 'package:car_tracking_app/features/car/domain/entity/car_entity.dart';
 import 'package:car_tracking_app/features/map/domin/repository/location_simulation_repo.dart';
@@ -9,8 +10,7 @@ import 'package:injectable/injectable.dart';
 part 'car_tracking_event.dart';
 
 part 'car_tracking_state.dart';
-
-@Singleton()
+@Injectable()
 class CarLiveTrackingBloc
     extends Bloc<CarLiveTrackingEvent, CarLiveTrackingState> {
   final LocationSimulationRepo locationSimulationRepo;
@@ -28,13 +28,21 @@ class CarLiveTrackingBloc
     final endLocation =
         LatLng(car.dropOffLocationLatitude, car.dropOffLocationLongitude);
 
-    await for (final newLocation in locationSimulationRepo.simulateLocation(
-        startLocation, endLocation, 60)) {
-      final bearing = MapLocationUtil.calculateBearing(newLocation, endLocation);
-      emit(CarLiveTrackingInProgress(
-        currentLocation: newLocation,
-        bearing: bearing
-      ));
+    try {
+      final polylineCoordinates = await locationSimulationRepo.generateRoute(
+          startLocation, endLocation);
+
+      await for (final newLocation
+          in locationSimulationRepo.simulateLocation(polylineCoordinates, 60)) {
+        final bearing =
+            MapLocationUtil.calculateBearing(newLocation, endLocation);
+        emit(CarLiveTrackingInProgress(
+            currentLocation: newLocation,
+            bearing: bearing,
+            polylineCoordinates: polylineCoordinates));
+      }
+    } catch (e, s) {
+      LoggerService().logError(e.toString(), e, s);
     }
   }
 }

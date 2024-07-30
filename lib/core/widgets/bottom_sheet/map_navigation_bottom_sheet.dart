@@ -15,9 +15,9 @@ import 'package:flutter/material.dart';
 
 class MapNavigationBottomSheet extends StatelessWidget {
   const MapNavigationBottomSheet({
-    Key? key,
+    super.key,
     required this.onNavigate,
-  }) : super(key: key);
+  });
   final Function onNavigate;
 
   @override

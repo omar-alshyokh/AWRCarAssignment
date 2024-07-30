@@ -1,3 +1,4 @@
+// ignore: unused_import
 import 'package:car_tracking_app/core/error/base_error.dart';
 import 'package:car_tracking_app/core/error/custom_error.dart';
 
@@ -23,7 +24,6 @@ enum Endpoints {
 }
 
 extension EndpointsString on Endpoints {
-  static const _queryPath = '';
 
   static const valueMap = {
     Endpoints.baseUrl: 'https://jsonplaceholder.typicode.com',

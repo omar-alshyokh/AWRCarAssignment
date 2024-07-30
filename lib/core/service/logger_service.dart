@@ -21,7 +21,6 @@ class LoggerService {
         // color for print
         printEmojis: true,
         // print an emoji for each log message
-        printTime: false, // should each log print contain a timestamp
       ),
     );
   }

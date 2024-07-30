@@ -1,11 +1,13 @@
 
+import 'package:car_tracking_app/core/service/logger_service.dart';
+import 'package:car_tracking_app/features/map/data/models/route_item_model.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../utils/app_utils.dart';
 
 class HiveAdapterTypeIds {
-  // static const int xAdapterId = 0;
+  static const int routesAdapterId = 0;
   // static const int yAdapterId = 1;
 }
 
@@ -14,7 +16,7 @@ class HiveService {
   registerAdapters() async {
     try {
       /// Register Hive Adapter here
-      // Hive.registerAdapter(YourAdapter());
+      Hive.registerAdapter(RouteItemModelAdapter());
 
     } catch (e) {
       appPrint('An error occurred in register hive adapters:$e');
@@ -26,14 +28,16 @@ class HiveService {
     try {
       /// delete your boxes here
       // await findDep<YourBoxHandler>().delete();
-    } catch (e) {}
+    } catch (e) {
+      LoggerService().logError(e.toString(),e);
+    }
   }
 
   Future<bool> isExists({required String boxName}) async {
     try {
       final exist = await Hive.boxExists(boxName);
       return exist;
-    } catch (e, stacktrace) {
+    } catch (e) {
       appPrint('An error happened in: isExists() $boxName  exception  ,$e');
       return false;
     }
@@ -54,7 +58,7 @@ class HiveService {
       int length = openBox.length;
       appPrint('get cache$length');
       return openBox.toMap();
-    } catch (e, stacktrace) {
+    } catch (e) {
       appPrint('An error happened in: getBoxes $boxName  exception  ,$e');
       return null;
     }

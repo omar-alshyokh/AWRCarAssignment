@@ -89,10 +89,9 @@ class NotFoundDioError extends BaseDioError {
 }
 
 class InternalServerError extends BaseError {
-  const InternalServerError({String? message, String? statusCode})
+  const InternalServerError({String? message, super.statusCode})
       : super(
-            message: message ?? 'error_unexpected',
-            statusCode: statusCode);
+            message: message ?? 'error_unexpected');
 
   @override
   String toString() {

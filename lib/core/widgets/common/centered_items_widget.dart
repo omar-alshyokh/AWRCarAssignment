@@ -28,7 +28,7 @@ class CenteredItemsWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,

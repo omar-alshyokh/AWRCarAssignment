@@ -1,6 +1,8 @@
 part of 'car_bloc.dart';
 
-sealed class CarEvent extends Equatable {}
+abstract class CarEvent extends Equatable {
+  const CarEvent();
+}
 
 class GetCarsEvent extends CarEvent {
   @override
@@ -10,8 +12,17 @@ class GetCarsEvent extends CarEvent {
 class AddCarEvent extends CarEvent {
   final CarModel car;
 
-  AddCarEvent(this.car);
+  const AddCarEvent({required this.car});
 
   @override
   List<Object?> get props => [car];
+}
+
+class LoadCarDetails extends CarEvent {
+  final String carId;
+
+  const LoadCarDetails({required this.carId});
+
+  @override
+  List<Object> get props => [carId];
 }

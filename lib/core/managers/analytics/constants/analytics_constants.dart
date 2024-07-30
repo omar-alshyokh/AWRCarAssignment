@@ -11,6 +11,17 @@ class ButtonAnalyticsKeyValues {
   static const int crashBtn = 5;
 
 
+  static const int  startTripBtn = 6;
+  static const int  endTripBtn = 7;
+  static const int  showLiveLocationBtn = 8;
+  static const int  addCarBtn = 9;
+  static const int  adminSignInBtn = 10;
+  static const int  vendorSignUpBtn = 11;
+  static const int  continueAsAdminBtn = 12;
+  static const int  continueAsVendorBtn = 13;
+  static const int  carListFilterBtn = 14;
+
+
 }
 
 class AnalyticsConstants {

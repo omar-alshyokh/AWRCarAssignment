@@ -40,7 +40,7 @@ class ColumnAnimationWidget extends StatelessWidget {
                 verticalOffset: verticalOffset,
                 duration: itemDuration,
                 delay: itemDelay,
-                child: widget,
+                child: FadeInAnimation(child: widget),
               ),
           children: children,
         ),

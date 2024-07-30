@@ -4,7 +4,7 @@ import 'package:car_tracking_app/core/service/logger_service.dart';
 // Package imports:
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class LocationHelper {
   static Future<Null>? getOnLocationError(Object error, StackTrace stack) {
@@ -13,8 +13,6 @@ abstract class LocationHelper {
   }
 
   LocationHelper._();
-
-
 
   static Future<Position> getLocation() async {
     // Check if location services are enabled.
@@ -105,6 +103,28 @@ abstract class LocationHelper {
       LoggerService().logDebug(stack.toString());
     }
     return location;
+  }
+
+  static LatLngBounds? getLatLngBounds(List<LatLng> list) {
+    if (list.isNotEmpty) {
+      double x0 = list.first.latitude;
+      double x1 = list.first.latitude;
+      double y0 = list.first.longitude;
+      double y1 = list.first.longitude;
+
+      for (final latLng in list.skip(1)) {
+        if (latLng.latitude > x1) x1 = latLng.latitude;
+        if (latLng.latitude < x0) x0 = latLng.latitude;
+        if (latLng.longitude > y1) y1 = latLng.longitude;
+        if (latLng.longitude < y0) y0 = latLng.longitude;
+      }
+
+      return LatLngBounds(
+        northeast: LatLng(x1, y1),
+        southwest: LatLng(x0, y0),
+      );
+    }
+    return null;
   }
 }
 

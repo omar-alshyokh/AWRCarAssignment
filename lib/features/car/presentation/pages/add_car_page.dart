@@ -1,5 +1,7 @@
 import 'package:car_tracking_app/core/constants/constants.dart';
+import 'package:car_tracking_app/core/di/di.dart';
 import 'package:car_tracking_app/core/helper/location_helper.dart';
+import 'package:car_tracking_app/core/managers/analytics/constants/analytics_enums.dart';
 import 'package:car_tracking_app/core/managers/localization/app_translation.dart';
 import 'package:car_tracking_app/core/service/logger_service.dart';
 import 'package:car_tracking_app/core/utils/app_utils.dart';
@@ -7,11 +9,13 @@ import 'package:car_tracking_app/core/utils/device_utils.dart';
 import 'package:car_tracking_app/core/utils/snackbar_utils.dart';
 import 'package:car_tracking_app/core/utils/vaildators/base_validator.dart';
 import 'package:car_tracking_app/core/utils/vaildators/required_validator.dart';
+import 'package:car_tracking_app/core/widgets/animations/coulumn_animation_widget.dart';
 import 'package:car_tracking_app/core/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:car_tracking_app/core/widgets/bottom_sheet/location_picker_bottom_sheet_widget.dart';
 import 'package:car_tracking_app/core/widgets/buttons/custom_elevated_button.dart';
 import 'package:car_tracking_app/core/widgets/common/app_loading_indicator.dart';
 import 'package:car_tracking_app/core/widgets/common/app_map_widget.dart';
+import 'package:car_tracking_app/core/widgets/common/base_stateful_app_widget.dart';
 import 'package:car_tracking_app/core/widgets/common/custom_app_bar.dart';
 import 'package:car_tracking_app/core/widgets/common/title_section_widget.dart';
 import 'package:car_tracking_app/core/widgets/custom_dropdown_widget.dart';
@@ -19,6 +23,7 @@ import 'package:car_tracking_app/core/widgets/textfields/rounded_textformfield_w
 import 'package:car_tracking_app/features/car/data/models/brand_model.dart';
 import 'package:car_tracking_app/features/car/data/models/car_model.dart';
 import 'package:car_tracking_app/features/car/data/models/car_type_model.dart';
+import 'package:car_tracking_app/features/car/domain/entity/car_entity.dart';
 import 'package:car_tracking_app/features/car/presentation/bloc/car_bloc.dart';
 import 'package:car_tracking_app/features/map/presentation/widgets/tap_to_select_your_place_on_map_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,14 +31,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
-class AddCarPage extends StatefulWidget {
+class AddCarPage extends BaseAppStatefulWidget {
   const AddCarPage({super.key});
 
+
   @override
-  State<AddCarPage> createState() => _AddCarPageState();
+  BaseAppState<BaseAppStatefulWidget> createBaseState() =>
+      _AddCarPageState();
 }
 
-class _AddCarPageState extends State<AddCarPage> {
+class _AddCarPageState extends BaseAppState<AddCarPage> {
   late final CarBloc carBloc;
 
   final _formKey = GlobalKey<FormState>();
@@ -59,7 +66,7 @@ class _AddCarPageState extends State<AddCarPage> {
   @override
   void initState() {
     super.initState();
-    carBloc = CarBloc();
+    carBloc = findDep<CarBloc>();
 
     _currentCarKilometersController = TextEditingController(text: "");
     _carPlateNumberController = TextEditingController(text: "");
@@ -71,6 +78,7 @@ class _AddCarPageState extends State<AddCarPage> {
     final width = DeviceUtils.getScaledWidth(context, 1);
     final appBar = CustomAppBar(
       title: translate.add_car,
+      titleColor: AppColors.secondaryDarkGrayColor,
     );
 
     final double height = DeviceUtils.getScaledHeight(context, 1) -
@@ -112,7 +120,7 @@ class _AddCarPageState extends State<AddCarPage> {
                     parent: AlwaysScrollableScrollPhysics()),
                 child: Padding(
                   padding: const EdgeInsets.all(AppDimens.space16),
-                  child: Column(
+                  child: ColumnAnimationWidget(
                     children: [
                       /// Brand Dropdown
                       /// choose car brand
@@ -307,7 +315,6 @@ class _AddCarPageState extends State<AddCarPage> {
         child: RoundedFormField(
           key: const ValueKey<String>('input.current_car_kilometers'),
           controller: _currentCarKilometersController,
-          maxLength: 255,
           textInputAction: TextInputAction.done,
           validator: (value) {
             return BaseValidator.validateValue(
@@ -316,7 +323,7 @@ class _AddCarPageState extends State<AddCarPage> {
           textAlign: TextAlign.start,
           borderColor: AppColors.black,
           keyboardType: TextInputType.number,
-          contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+          contentPadding: const EdgeInsets.fromLTRB(AppDimens.space10, 0, AppDimens.space10, AppDimens.space10),
           hintText: translate.current_car_kilometers_hint,
           borderRadius: AppRadius.radius8,
           fillColor: AppColors.white,
@@ -402,7 +409,6 @@ class _AddCarPageState extends State<AddCarPage> {
         child: RoundedFormField(
           key: const ValueKey<String>('input.car_plate_number'),
           controller: _carPlateNumberController,
-          maxLength: 255,
           textInputAction: TextInputAction.done,
           validator: (value) {
             return BaseValidator.validateValue(
@@ -411,7 +417,7 @@ class _AddCarPageState extends State<AddCarPage> {
           textAlign: TextAlign.start,
           borderColor: AppColors.black,
           keyboardType: TextInputType.text,
-          contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+          contentPadding: const EdgeInsets.fromLTRB(AppDimens.space10, 0, AppDimens.space10, AppDimens.space10),
           hintText: translate.car_plate_number_hint,
           borderRadius: AppRadius.radius8,
           fillColor: AppColors.white,
@@ -425,7 +431,6 @@ class _AddCarPageState extends State<AddCarPage> {
         child: RoundedFormField(
           key: const ValueKey<String>('input.car_model_year'),
           controller: _carModelYearController,
-          maxLength: 255,
           textInputAction: TextInputAction.done,
           validator: (value) {
             return BaseValidator.validateValue(
@@ -434,7 +439,7 @@ class _AddCarPageState extends State<AddCarPage> {
           textAlign: TextAlign.start,
           borderColor: AppColors.black,
           keyboardType: TextInputType.number,
-          contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+          contentPadding: const EdgeInsets.fromLTRB(AppDimens.space10, 0, AppDimens.space10, AppDimens.space10),
           hintText: translate.car_model_year_hint,
           borderRadius: AppRadius.radius8,
           fillColor: AppColors.white,
@@ -451,32 +456,28 @@ class _AddCarPageState extends State<AddCarPage> {
       var uuid = const Uuid();
 
       final car = CarModel(
-          id: uuid.v4(),
-          // Will be set by Firestore
-          name: selectedCar?.name ?? '',
-          brandName: selectedBrand?.name,
-          imageUrl: selectedCar?.image ?? '',
-          currentKm: _currentCarKilometersController?.text ?? "",
-          pickUpLocationLatitude: latLngPickupLocation?.latitude ?? 0.0,
-          pickUpLocationLongitude: latLngPickupLocation?.longitude ?? 0.0,
-          dropOffLocationLatitude: latLngDropOffLocation?.latitude ?? 0.0,
-          dropOffLocationLongitude: latLngDropOffLocation?.longitude ?? 0.0,
-          currentLocationLatitude: latLngPickupLocation?.latitude ?? 0.0,
-          currentLocationLongitude: latLngPickupLocation?.longitude ?? 0.0,
-          carPlate: _carPlateNumberController?.text ?? "",
-          modelYear: _carModelYearController?.text ?? "",
-          // Status set to 1 -> pending
-          status: 2,
-          createdAt: Timestamp.now(),
-          /// for delete
-          pickUpTime: Timestamp.fromDate(DateTime.now().add(const Duration(minutes: 30))),
-          vendorContactNumber: "(+971) 501234567",
-          vendorUserName: "Ahmed Aziz",
-
-
+        id: uuid.v4(),
+        name: selectedCar?.name ?? '',
+        brandName: selectedBrand?.name,
+        imageUrl: selectedCar?.image ?? '',
+        currentKm: _currentCarKilometersController?.text ?? "",
+        pickUpLocationLatitude: latLngPickupLocation?.latitude ?? 0.0,
+        pickUpLocationLongitude: latLngPickupLocation?.longitude ?? 0.0,
+        dropOffLocationLatitude: latLngDropOffLocation?.latitude ?? 0.0,
+        dropOffLocationLongitude: latLngDropOffLocation?.longitude ?? 0.0,
+        currentLocationLatitude: latLngPickupLocation?.latitude ?? 0.0,
+        currentLocationLongitude: latLngPickupLocation?.longitude ?? 0.0,
+        carPlate: _carPlateNumberController?.text ?? "",
+        modelYear: _carModelYearController?.text ?? "",
+        // Status set to 1 -> pending
+        status: CarStatusType.pending.value,
+        createdAt: Timestamp.now(),
       );
 
-      carBloc.add(AddCarEvent(car));
+      carBloc.add(AddCarEvent(car: car));
+
+      /// flashing an event for adding new car
+      eventTracker(event: ButtonAnalyticIdentity.addCar);
       AppUtils.unFocus(context);
     } else {
       SnackBarUtil.showWarningAlert(

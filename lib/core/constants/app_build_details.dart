@@ -1,6 +1,4 @@
 
-import 'package:car_tracking_app/core/di/di.dart';
-import 'package:car_tracking_app/core/helper/shared_preference_helper.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:io' as io;

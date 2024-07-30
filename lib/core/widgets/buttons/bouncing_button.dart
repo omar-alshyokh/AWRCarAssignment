@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:car_tracking_app/core/constants/app_colors.dart';
-import 'package:car_tracking_app/core/constants/app_text_style.dart';
 
 class BouncingButton extends StatefulWidget {
   final ButtonStyle? buttonStyle;
@@ -112,11 +111,11 @@ class _BouncingButtonState extends State<BouncingButton>
 
   Widget _animatedButton() {
     final enabledBackgroundColor = buttonStyle.backgroundColor
-            ?.resolve((<MaterialState>[MaterialState.selected]).toSet()) ??
+            ?.resolve((<WidgetState>[WidgetState.selected]).toSet()) ??
         AppColors.primaryOrangeColor;
     final disabledBackgroundColor = widget.disableBGColor ??
         buttonStyle.backgroundColor
-            ?.resolve((<MaterialState>[MaterialState.disabled]).toSet()) ??
+            ?.resolve((<WidgetState>[WidgetState.disabled]).toSet()) ??
         AppColors.lightGray;
 
 
@@ -135,14 +134,14 @@ class _BouncingButtonState extends State<BouncingButton>
   }
 
   bool _isPositionInRange({required Offset localPosition}) {
-    final _rootSize = _rootKey.currentContext?.size;
-    if (_rootSize == null) return false;
+    final rootSize = _rootKey.currentContext?.size;
+    if (rootSize == null) return false;
     final dx = localPosition.dx;
     final dy = localPosition.dy;
     final isXInRange = dx > (0 - _distanceThreshold) &&
-        dx < (_rootSize.width + _distanceThreshold);
+        dx < (rootSize.width + _distanceThreshold);
     final isYInRange = dy > (0 - _distanceThreshold) &&
-        dy < (_rootSize.height + _distanceThreshold);
+        dy < (rootSize.height + _distanceThreshold);
     return isXInRange && isYInRange;
   }
 

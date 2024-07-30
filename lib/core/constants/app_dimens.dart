@@ -46,4 +46,6 @@ class AppDimens {
   static double fieldHeight = 0.1067;
   static double appBarHeight = 80;
 
+  static const double dialogWidth = 330.0;
+
 }

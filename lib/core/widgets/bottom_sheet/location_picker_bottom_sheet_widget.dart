@@ -1,9 +1,9 @@
 // Flutter imports:
-import 'package:car_tracking_app/core/constants/app_dimens.dart';
 import 'package:car_tracking_app/core/constants/constants.dart';
 import 'package:car_tracking_app/core/managers/localization/app_translation.dart';
 import 'package:car_tracking_app/core/widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:car_tracking_app/core/widgets/common/app_map_widget.dart';
+import 'package:car_tracking_app/core/widgets/common/base_stateful_app_widget.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -15,7 +15,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 ///
 /// Users can select a location from the map, and the selected location
 /// will be passed to the [onLocationSelected] callback.
-class LocationPickerBottomSheet extends StatefulWidget {
+class LocationPickerBottomSheet extends BaseAppStatefulWidget {
   /// Creates a new [LocationPickerBottomSheet] instance.
   ///
   /// [key] is an optional [Key] for the widget.
@@ -32,11 +32,12 @@ class LocationPickerBottomSheet extends StatefulWidget {
   final Function(AppLatLng) onLocationSelected;
 
   @override
-  _LocationPickerBottomSheetState createState() =>
+  BaseAppState<BaseAppStatefulWidget> createBaseState() =>
       _LocationPickerBottomSheetState();
 }
 
-class _LocationPickerBottomSheetState extends State<LocationPickerBottomSheet> {
+class _LocationPickerBottomSheetState
+    extends BaseAppState<LocationPickerBottomSheet> {
   // GoogleMapController? _controller;
   AppLatLng? _selectedLocation;
 

@@ -13,18 +13,10 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SplashPage> {
-  late AnimationController _controller;
-
+class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: AppDurations.splashAnimationDuration),
-      vsync: this,
-    );
 
     _startSplashScreenTimer(5);
   }
@@ -36,14 +28,13 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       body: Center(
         child: FadeIn(
           duration: const Duration(
               milliseconds: AppDurations.splashAnimationDuration),
-          delay: const Duration(
-              milliseconds: AppDurations.splashAnimationDelay),
+          delay:
+              const Duration(milliseconds: AppDurations.splashAnimationDelay),
           child: Image.asset(
             AppAssets.appLogo,
           ),
@@ -59,16 +50,8 @@ class _SplashPageState extends State<SplashPage>
 
   _navigation() async {
     if (context.mounted) {
-      Navigator.pushReplacementNamed(context, AppRoutes.login);
+      Navigator.pushNamedAndRemoveUntil(
+          context, AppRoutes.authIntroPage, (route) => false);
     }
   }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }

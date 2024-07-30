@@ -23,7 +23,7 @@ class GraphQlClientAgent {
       final QueryResult result = await client.query(options);
       return handleQueryResult(result);
     } catch (e) {
-      return Result(error: const CustomError(message: 'Server Error'));
+      return const Result(error: CustomError(message: 'Server Error'));
     }
   }
 
@@ -42,7 +42,7 @@ class GraphQlClientAgent {
       return handleQueryResult(result);
     } catch (e) {
       appPrint("performMutation catch error: ${e.toString()}");
-      return Result(error: const CustomError(message: 'Server Error'));
+      return const Result(error: CustomError(message: 'Server Error'));
     }
   }
 
@@ -67,7 +67,7 @@ class GraphQlClientAgent {
         } else if (linkException is ServerException) {
           appPrint(
               'linkException.originalException ${linkException.originalException}');
-          final statusCode = linkException.statusCode;
+          // final statusCode = linkException.statusCode;
           // final statusMessage = linkException.response.body;
           errorMessage = 'ServerException';
           error = CustomError(message: errorMessage);

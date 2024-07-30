@@ -10,14 +10,17 @@ class CarLiveTrackingInitial extends CarLiveTrackingState {}
 class CarLiveTrackingInProgress extends CarLiveTrackingState {
   final LatLng currentLocation;
   final double bearing;
+  final List<LatLng> polylineCoordinates;
+
 
 
   CarLiveTrackingInProgress({
     required this.currentLocation,
     required this.bearing,
+    required this.polylineCoordinates
 
   });
 
   @override
-  List<Object> get props => [currentLocation];
+  List<Object> get props => [currentLocation,polylineCoordinates];
 }

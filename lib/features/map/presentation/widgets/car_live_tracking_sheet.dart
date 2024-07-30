@@ -1,10 +1,16 @@
 import 'dart:async';
 import 'package:car_tracking_app/core/constants/app_assets.dart';
+import 'package:car_tracking_app/core/constants/app_colors.dart';
 import 'package:car_tracking_app/core/constants/app_constants.dart';
 import 'package:car_tracking_app/core/constants/app_dimens.dart';
+import 'package:car_tracking_app/core/constants/app_durations.dart';
 import 'package:car_tracking_app/core/di/di.dart';
+import 'package:car_tracking_app/core/managers/localization/app_translation.dart';
+import 'package:car_tracking_app/core/utils/device_utils.dart';
+import 'package:car_tracking_app/core/widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:car_tracking_app/core/widgets/common/app_map_widget.dart';
 import 'package:car_tracking_app/features/car/domain/entity/car_entity.dart';
+import 'package:car_tracking_app/features/car/presentation/widgets/car_map_item_widget.dart';
 import 'package:car_tracking_app/features/map/presentation/bloc/tracking_location/car_tracking_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -41,8 +47,8 @@ class _CarLiveTrackingSheetState extends State<CarLiveTrackingSheet> {
   Future<void> _loadCustomMarkers() async {
     _pickUpMarkerIcon =
         await getBitmapDescriptorFromAssetBytes(AppAssets.carPickUpMarker, 100);
-    _dropOffMarkerIcon =
-        await getBitmapDescriptorFromAssetBytes(AppAssets.carDropOffMarker, 100);
+    _dropOffMarkerIcon = await getBitmapDescriptorFromAssetBytes(
+        AppAssets.carDropOffMarker, 100);
     _carMarkerIcon =
         await getBitmapDescriptorFromAssetBytes(AppAssets.carMarker, 65);
     if (mounted) setState(() {});
@@ -74,66 +80,80 @@ class _CarLiveTrackingSheetState extends State<CarLiveTrackingSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CarLiveTrackingBloc, CarLiveTrackingState>(
-      bloc: _carLiveTrackingBloc,
-      listener: (context, state) {
-        if (state is CarLiveTrackingInProgress) {
-          _updateCarMarker(state.currentLocation,state.bearing);
-        }
-      },
-      builder: (context, state) {
-        return SizedBox(
-          height: 400,
-          child: Column(
-            children: [
-              Expanded(
-                child: GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(widget.car.currentLocationLatitude,
-                        widget.car.currentLocationLongitude),
-                    zoom: AppConstants.initialCameraZoom,
+    final height = DeviceUtils.getScaledHeight(context, .7);
+    final width = DeviceUtils.getScaledHeight(context, .8);
+    return BaseBottomSheet(
+      withDone: false,
+      padding: EdgeInsets.zero,
+      textHeader: translate.delivering_message,
+      childContent: BlocConsumer<CarLiveTrackingBloc, CarLiveTrackingState>(
+        bloc: _carLiveTrackingBloc,
+        listener: (context, state) {
+          if (state is CarLiveTrackingInProgress) {
+            _updateCarMarker(state.currentLocation, state.bearing);
+          }
+        },
+        builder: (context, state) {
+          return AnimatedContainer(
+            duration: const Duration(
+              milliseconds: AppDurations.shortAnimationDuration,
+            ),
+            height: height,
+            child: Column(
+              children: [
+                Expanded(
+                  child: GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(widget.car.currentLocationLatitude,
+                          widget.car.currentLocationLongitude),
+                      zoom: AppConstants.initialCameraZoom,
+                    ),
+                    zoomControlsEnabled: false,
+                    markers: _carMarker != null
+                        ? {
+                            _carMarker!,
+                            Marker(
+                              markerId: const MarkerId('pick_up'),
+                              position: LatLng(widget.car.pickUpLocationLatitude,
+                                  widget.car.pickUpLocationLongitude),
+                              icon: _pickUpMarkerIcon ??
+                                  BitmapDescriptor.defaultMarker,
+                            ),
+                            Marker(
+                              markerId: const MarkerId('drop_off'),
+                              position: LatLng(widget.car.dropOffLocationLatitude,
+                                  widget.car.dropOffLocationLongitude),
+                              icon: _dropOffMarkerIcon ??
+                                  BitmapDescriptor.defaultMarker,
+                            ),
+                          }
+                        : {},
+                    polylines: state is CarLiveTrackingInProgress
+                        ? {
+                            Polyline(
+                              polylineId: const PolylineId('route'),
+                              points: state.polylineCoordinates,
+                              color: AppColors.blue,
+                              width: 5,
+                            ),
+                          }
+                        : {},
                   ),
-                  markers: _carMarker != null
-                      ? {
-                          _carMarker!,
-                          Marker(
-                            markerId: const MarkerId('pick_up'),
-                            position: LatLng(widget.car.pickUpLocationLatitude,
-                                widget.car.pickUpLocationLongitude),
-                            icon: _pickUpMarkerIcon ??
-                                BitmapDescriptor.defaultMarker,
-                          ),
-                          Marker(
-                            markerId: const MarkerId('drop_off'),
-                            position: LatLng(widget.car.dropOffLocationLatitude,
-                                widget.car.dropOffLocationLongitude),
-                            icon: _dropOffMarkerIcon ??
-                                BitmapDescriptor.defaultMarker,
-                          ),
-                        }
-                      : {},
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(AppDimens.space16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                        'Pick-up Location: ${widget.car.pickUpLocationLatitude}, ${widget.car.pickUpLocationLongitude}'),
-                    Text(
-                        'Drop-off Location: ${widget.car.dropOffLocationLatitude}, ${widget.car.dropOffLocationLongitude}'),
-                    if (_carMarker != null)
-                      Text(
-                          'Current Location: ${_carMarker!.position.latitude}, ${_carMarker!.position.longitude}'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+                CarMapItemWidget(car: widget.car, width: width, height: height*.3)
+              ],
+            ),
+          );
+        },
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    _mapController.dispose();
+    _carLiveTrackingBloc.close();
+    super.dispose();
   }
 }

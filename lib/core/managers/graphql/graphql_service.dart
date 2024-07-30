@@ -13,7 +13,7 @@ class GraphQLService {
     // Return the token as a string
     const token = '';
     // appPrint("Bearer ${token??''}");
-    return token??''; // Replace with actual token retrieval logic
+    return token; // Replace with actual token retrieval logic
   }
 
   static final AuthLink authLink = AuthLink(

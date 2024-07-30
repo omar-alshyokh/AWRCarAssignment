@@ -16,11 +16,16 @@ class AppAssets {
   static const String sunnyPng = "${AppPaths.imagesPath}/sunny.png";
   static const String xTrailPng = "${AppPaths.imagesPath}/x_trail.png";
 
+
+  static const String vendorPlaceholder = "${AppPaths.imagesPath}/vendor_placeholder.png";
+  static const String adminPlaceholder = "${AppPaths.imagesPath}/admin_placeholder.png";
+
   static const String carMarker = "${AppPaths.iconsPath}/car_marker.png";
   static const String carMarkerDelivered = "${AppPaths.iconsPath}/car_marker_delivered.png";
   static const String carMarkerDelivering= "${AppPaths.iconsPath}/car_marker_delivering.png";
   static const String carMarkerPending= "${AppPaths.iconsPath}/car_marker_pending.png";
   static const String carMarkerUnknown= "${AppPaths.iconsPath}/car_marker_pending.png";
+  static const String appIconLogo= "${AppPaths.iconsPath}/app_icon_logo.jpg";
 
 
   static const String carMoveMarker= "${AppPaths.iconsPath}/car_move_marker.png";

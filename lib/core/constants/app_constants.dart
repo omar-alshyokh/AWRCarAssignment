@@ -1,4 +1,5 @@
 import 'package:car_tracking_app/core/constants/app_assets.dart';
+import 'package:car_tracking_app/core/model/app_language_metadata_model.dart';
 import 'package:car_tracking_app/core/widgets/common/app_map_widget.dart';
 import 'package:car_tracking_app/features/car/data/models/brand_model.dart';
 import 'package:car_tracking_app/features/car/data/models/car_type_model.dart';
@@ -18,13 +19,15 @@ class AppConstants {
   static const String locationStorageKey = "locationStorageKey";
   static const String bluetoothStorageKey = "bluetoothStorageKey";
 
+  static const String routesHiveBox = "routesHiveBox";
+  static const String defaultRouteHiveTable = "defaultRouteHiveTable";
+
   /// preferences keys
   static const String prefLanguageCode = "pref_language_code";
+  static const String prefVendorFullName = "pref_vendor_full_name";
+  static const String prefVendorContactNumber = "pref_vendor_contact_number";
 
   /// general keys
-  /// todo move the token keys to .env file
-  static const String mixpanelTokenKeyDev = "0719e95f7af79cd98f7b7dd0e9fcb6b3";
-  static const String mixpanelTokenKeyProd = "";
 
   static const List<BrandModel> mockBrandList = [
     BrandModel(name: "Nissan", id: 1)
@@ -48,8 +51,12 @@ class AppConstants {
         id: 6, name: "Nissan X-Trail", brandId: 1, image: AppAssets.xTrailPng),
   ];
 
+  static double initialCameraZoom = 14;
 
-  static double initialCameraZoom = 17;
   static AppLatLng initialMapLocation = const AppLatLng(25.2048, 55.2708);
 
+  static final listOfLanguages = [
+    const AppLanguageMetaData("English", "en", "🇺🇸"),
+    const AppLanguageMetaData("العربية", "ar", "🇸🇦"),
+  ];
 }

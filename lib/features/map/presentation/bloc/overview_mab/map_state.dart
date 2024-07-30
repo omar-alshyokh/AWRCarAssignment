@@ -24,8 +24,9 @@ class MapLoading extends MapState {
 
 class GetCarsLocationSuccess extends MapState {
   final List<CarEntity> cars;
+  final LatLngBounds? latLngBounds;
 
-  const GetCarsLocationSuccess({required this.cars});
+  const GetCarsLocationSuccess({required this.cars,required this.latLngBounds});
 
   @override
   List<Object> get props => [cars];

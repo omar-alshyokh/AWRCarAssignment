@@ -23,7 +23,7 @@ class TitleSectionWidget extends StatelessWidget {
           style: style ??
               appTextStyle.middleTSBasic.copyWith(
                 color: AppColors.black,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
               ),
         ),
         const SizedBox(

@@ -9,7 +9,7 @@ import 'package:car_tracking_app/features/home/domain/repository/post_repository
 
 @LazySingleton()
 class PostRepositoryImpl extends BaseRepository implements PostRepository {
-  PostDatasource _datasource;
+  final PostDatasource _datasource;
 
   PostRepositoryImpl(this._datasource);
 

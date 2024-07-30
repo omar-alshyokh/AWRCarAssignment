@@ -7,7 +7,7 @@ class FlashingCardWidget extends StatefulWidget {
   final ShapeBorder? shape;
   const FlashingCardWidget({super.key, required this.child,required this.color,required this.animatedColor,this.shape});
   @override
-  _FlashingCardState createState() => _FlashingCardState();
+  State<StatefulWidget> createState() => _FlashingCardState();
 }
 
 class _FlashingCardState extends State<FlashingCardWidget> with SingleTickerProviderStateMixin {

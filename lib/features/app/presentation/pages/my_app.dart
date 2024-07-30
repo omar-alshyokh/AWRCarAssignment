@@ -12,19 +12,30 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatefulWidget {
-  final AppLanguage? appLanguage;
-  const MyApp({super.key,required this.appLanguage});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  final _appLanguageManager = findDep<AppLanguage>();
+
+  @override
+  void initState() {
+    super.initState();
+    _appLanguageManager.fetchLocale();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AppLanguage?>(
-      create: (_) => widget.appLanguage,
-      child: Consumer<AppLanguage>(builder: (context, model, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => _appLanguageManager),
+      ],
+      child: ChangeNotifierProvider<AppLanguage?>(
+        create: (_) => _appLanguageManager,
+        child: Consumer<AppLanguage>(builder: (context, model, child) {
           return MaterialApp(
             locale: model.appLocal,
             supportedLocales: Translations.delegate.supportedLocales,
@@ -52,7 +63,8 @@ class _MyAppState extends State<MyApp> {
                 appBarTheme: const AppBarTheme(
                   elevation: 0.0,
                   iconTheme: IconThemeData(
-                    color: AppColors.primaryOrangeColor, //change your color here
+                    color:
+                        AppColors.primaryOrangeColor, //change your color here
                   ),
                 ),
                 pageTransitionsTheme: const PageTransitionsTheme(builders: {
@@ -68,9 +80,8 @@ class _MyAppState extends State<MyApp> {
               }
               return child!;
             },
-
           );
-        }
+        }),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,5 +17,9 @@ abstract class LocalModule {
   @preResolve
   Future<InternetConnection> checker() =>
       Future.value(InternetConnection.createInstance());
+
+  @preResolve
+  Future<PolylinePoints> polyLinePoints() =>
+      Future.value(PolylinePoints());
 
 }

@@ -7,4 +7,5 @@ abstract class CarRepository {
   Stream<List<CarEntity>> getListOfCarsAsStream();
 
   Future<void> addCar(CarModel car, String id);
+  Stream<CarEntity> getCarAsStream(String id);
 }

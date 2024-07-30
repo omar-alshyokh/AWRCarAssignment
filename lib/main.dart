@@ -1,4 +1,3 @@
-import 'package:car_tracking_app/core/constants/app_build_details.dart';
 import 'package:car_tracking_app/core/managers/analytics/service/mixpanel_analytics_service.dart';
 import 'package:car_tracking_app/core/managers/localization/app_language.dart';
 import 'package:car_tracking_app/core/widgets/common/restart_widget.dart';
@@ -6,17 +5,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:car_tracking_app/core/di/di.dart';
 import 'package:car_tracking_app/core/managers/localdb/hive_service.dart';
 import 'package:car_tracking_app/features/app/presentation/pages/my_app.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -28,7 +27,6 @@ void main() async {
   );
 
   await configureDependencies();
-
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -44,18 +42,7 @@ void main() async {
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-  AppLanguage appLanguage = AppLanguage();
-  await appLanguage.fetchLocale();
-  runApp(RestartWidget(
-    child: MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AppLanguage()),
-
-      ],
-      child: MyApp(
-        appLanguage: appLanguage,
-      ),
-    ),
+  runApp(const RestartWidget(
+    child: MyApp(),
   ));
 }
-

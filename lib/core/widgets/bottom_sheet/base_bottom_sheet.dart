@@ -61,7 +61,7 @@ class BaseBottomSheet<DATA> extends StatefulWidget {
   final EdgeInsets? padding;
 
   @override
-  _BaseBottomSheetState createState() => _BaseBottomSheetState<DATA>();
+  State<StatefulWidget> createState() => _BaseBottomSheetState<DATA>();
 }
 
 class _BaseBottomSheetState<DATA> extends State<BaseBottomSheet> {

@@ -17,8 +17,14 @@ class AppColors {
   static const yellow = Color(0xffFEE715);
 
   static const Color white = Colors.white;
+  static const Color blueGrey = Colors.blueGrey;
   static const Color black = Colors.black;
   static const Color black26 = Colors.black;
   static const Color transparent = Colors.transparent;
   static const Color green = Colors.green;
+  static const Color blue = Colors.blue;
+  static const Color vendorSignUpBG = Color(0xFFcec6b2);
+  static const Color adminSignUpBG = Color(0xFFcabead);
+  static const Color bottomNavBarColor = Color(0xff8B0000);
+
 }

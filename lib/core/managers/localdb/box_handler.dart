@@ -45,6 +45,7 @@ abstract class CollectionBoxHandler<T> extends BoxHandler<T> {
   ///
   /// Read more: https://work.j832.com/2014/05/equality-and-dart.html
   /// https://api.dart.dev/be/137051/dart-core/Object/operator_equals.html
+  @override
   Future<void> put(T value, {String? key});
 
   /// Deletes [value] from the list of [key].

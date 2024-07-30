@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
@@ -85,8 +84,8 @@ class AppUtils {
 
   static int getExtendedVersionNumber(String version) {
     try {
-      final _version = version.replaceAll(".", "").replaceAll("+", "");
-      return int.tryParse(_version) ?? 0;
+      final version0 = version.replaceAll(".", "").replaceAll("+", "");
+      return int.tryParse(version0) ?? 0;
     } catch (e) {
       appPrint("getExtendedVersionNumber error $e");
       return 0;
@@ -127,7 +126,7 @@ class AppUtils {
       required String text,
       required String number}) async {
     // var whatsapp = number; //+92xx enter like this
-    var whatsappURlAndroid = "whatsapp://send?phone=" + number + "&text= $text";
+    var whatsappURlAndroid = "whatsapp://send?phone=$number&text= $text";
     var whatsappURLIos = "https://wa.me/$number?text=${Uri.tryParse(text)}";
     if (Platform.isIOS) {
       // for iOS phone only
@@ -179,14 +178,14 @@ class AppUtils {
               '***************************/');
 
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: new Text("Email is not configured!")));
+              const SnackBar(content: Text("Email is not configured!")));
           return Future.value(false);
         }
       }
     } catch (b) {
       appPrint(b.toString());
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: new Text("Email is not configured!")));
+          const SnackBar(content: Text("Email is not configured!")));
       return Future.value(false);
     }
   }
@@ -227,5 +226,19 @@ class AppUtils {
         throw 'Could not open the map.';
       }
     }
+  }
+
+  static Future<T?> appShowDialog<T>({
+    required BuildContext context,
+    required Widget Function(BuildContext context) builder,
+    bool barrierDismissible = true,
+  }) {
+    return showDialog<T?>(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      builder: (BuildContext context) {
+        return builder(context);
+      },
+    );
   }
 }

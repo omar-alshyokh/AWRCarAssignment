@@ -1,10 +1,24 @@
 // Project imports:
 import 'dart:ui';
 
+import 'package:car_tracking_app/core/constants/app_colors.dart';
 import 'package:car_tracking_app/core/entity/base_entity.dart';
 import 'package:car_tracking_app/core/managers/localization/app_translation.dart';
+import 'package:car_tracking_app/features/car/data/models/car_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+enum CarStatusType {
+
+  pending(1),
+  delivering(2),
+  delivered(3);
+
+  // can add more properties or getters/methods if needed
+  final int value;
+
+  const CarStatusType(this.value);
+}
 
 class CarEntity extends BaseEntity {
   final String id;
@@ -13,26 +27,26 @@ class CarEntity extends BaseEntity {
   final String? brandName;
   final String? imageUrl;
   final String? currentKm;
-  final String? totalKm;
+  String? totalKm;
   final double pickUpLocationLatitude;
   final double pickUpLocationLongitude;
   final double dropOffLocationLatitude;
   final double dropOffLocationLongitude;
-  final double currentLocationLatitude;
-  final double currentLocationLongitude;
+   double currentLocationLatitude;
+   double currentLocationLongitude;
 
-  final Timestamp? pickUpTime;
+  Timestamp? pickUpTime;
 
-  final Timestamp? dropOffTime;
+  Timestamp? dropOffTime;
   final Timestamp? createdAt;
 
-  final String? vendorUserName;
-  final String? vendorContactNumber;
+  String? vendorUserName;
+  String? vendorContactNumber;
   final String carPlate;
   final String? modelYear;
-  final int status;
+  int status;
 
-  const CarEntity(
+  CarEntity(
       {required this.id,
       required this.name,
       this.brandName,
@@ -107,13 +121,37 @@ class CarEntity extends BaseEntity {
   Color get statusColor {
     switch (status) {
       case 1: // Pending
-        return Colors.orange;
+        return AppColors.primaryOrangeColor;
       case 2: // Delivering
-        return Colors.blue;
+        return AppColors.blue;
       case 3: // Delivered
-        return Colors.green;
+        return AppColors.green;
       default:
-        return Colors.grey;
+        return AppColors.primaryGrayColor;
     }
+  }
+
+  CarModel toCarModel() {
+    return CarModel(
+        id: id,
+        name: name,
+        pickUpLocationLatitude: pickUpLocationLatitude,
+        pickUpLocationLongitude: pickUpLocationLongitude,
+        dropOffLocationLatitude: dropOffLocationLatitude,
+        dropOffLocationLongitude: dropOffLocationLongitude,
+        currentLocationLatitude: currentLocationLatitude,
+        currentLocationLongitude: currentLocationLongitude,
+        carPlate: carPlate,
+        brandName: brandName,
+        createdAt: createdAt,
+        currentKm: currentKm,
+        dropOffTime: dropOffTime,
+        imageUrl: imageUrl,
+        modelYear: modelYear,
+        pickUpTime: pickUpTime,
+        totalKm: totalKm,
+        vendorContactNumber: vendorContactNumber,
+        vendorUserName: vendorUserName,
+        status: status);
   }
 }

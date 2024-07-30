@@ -1,6 +1,5 @@
 part of 'car_bloc.dart';
 
-@immutable
 abstract class CarState extends Equatable {
   const CarState();
 }
@@ -20,6 +19,7 @@ class CarLoading extends CarState {
   @override
   String toString() => 'CarLoading';
 }
+
 class AddCarLoading extends CarState {
   @override
   List<Object?> get props => [];
@@ -70,4 +70,22 @@ class AddCarFailed extends CarState {
 
   @override
   String toString() => 'AddCarFailed';
+}
+
+class CarDetailsLoaded extends CarState {
+  final CarEntity car;
+
+  const CarDetailsLoaded({required this.car});
+
+  @override
+  List<Object> get props => [car];
+}
+
+class CarDetailsFailed extends CarState {
+  final BaseError error;
+
+  const CarDetailsFailed({required this.error});
+
+  @override
+  List<Object> get props => [error];
 }

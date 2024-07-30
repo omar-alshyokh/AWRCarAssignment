@@ -739,6 +739,346 @@ class Translations {
       args: [],
     );
   }
+
+  /// `The car is on the road, cruising through traffic and making its way to the destination. Hang tight, it's almost there!`
+  String get live_tracing_car_message {
+    return Intl.message(
+      'The car is on the road, cruising through traffic and making its way to the destination. Hang tight, it\'s almost there!',
+      name: 'live_tracing_car_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Car not found`
+  String get car_not_found {
+    return Intl.message(
+      'Car not found',
+      name: 'car_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get sign_up {
+    return Intl.message(
+      'Sign Up',
+      name: 'sign_up',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Account`
+  String get new_account {
+    return Intl.message(
+      'New Account',
+      name: 'new_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Password`
+  String get confirm_password {
+    return Intl.message(
+      'Confirm Password',
+      name: 'confirm_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full Name`
+  String get full_name {
+    return Intl.message(
+      'Full Name',
+      name: 'full_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Number`
+  String get contact_number {
+    return Intl.message(
+      'Contact Number',
+      name: 'contact_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create`
+  String get create {
+    return Intl.message(
+      'Create',
+      name: 'create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your full name`
+  String get enter_your_fullname_hint {
+    return Intl.message(
+      'Enter your full name',
+      name: 'enter_your_fullname_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your contact number`
+  String get enter_your_contact_number {
+    return Intl.message(
+      'Enter your contact number',
+      name: 'enter_your_contact_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your password`
+  String get enter_your_password {
+    return Intl.message(
+      'Enter your password',
+      name: 'enter_your_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-Entre your password`
+  String get re_enter_your_password {
+    return Intl.message(
+      'Re-Entre your password',
+      name: 're_enter_your_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill the required fields`
+  String get please_fill_the_required_fields {
+    return Intl.message(
+      'Please fill the required fields',
+      name: 'please_fill_the_required_fields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In`
+  String get sign_in {
+    return Intl.message(
+      'Sign In',
+      name: 'sign_in',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User Name`
+  String get username {
+    return Intl.message(
+      'User Name',
+      name: 'username',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your user name`
+  String get enter_your_username {
+    return Intl.message(
+      'Enter your user name',
+      name: 'enter_your_username',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue as AWR admin`
+  String get continue_as_awr_admin {
+    return Intl.message(
+      'Continue as AWR admin',
+      name: 'continue_as_awr_admin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue as Vendor`
+  String get continue_as_vendor {
+    return Intl.message(
+      'Continue as Vendor',
+      name: 'continue_as_vendor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accept and Start Delivery`
+  String get accept_and_start_delivery {
+    return Intl.message(
+      'Accept and Start Delivery',
+      name: 'accept_and_start_delivery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mark as Delivered`
+  String get mark_as_delivered {
+    return Intl.message(
+      'Mark as Delivered',
+      name: 'mark_as_delivered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Congratulations on completing the trip successfully!`
+  String get complete_trip_msg {
+    return Intl.message(
+      'Congratulations on completing the trip successfully!',
+      name: 'complete_trip_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Safe journey! Enjoy the ride!`
+  String get start_trip_msg {
+    return Intl.message(
+      'Safe journey! Enjoy the ride!',
+      name: 'start_trip_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notification`
+  String get notification {
+    return Intl.message(
+      'Notification',
+      name: 'notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trip Distance`
+  String get trip_distance {
+    return Intl.message(
+      'Trip Distance',
+      name: 'trip_distance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vendor Information`
+  String get vendor_info {
+    return Intl.message(
+      'Vendor Information',
+      name: 'vendor_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join Our Vendor Network`
+  String get join_our_vendor_network {
+    return Intl.message(
+      'Join Our Vendor Network',
+      name: 'join_our_vendor_network',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show on the map`
+  String get map_overview {
+    return Intl.message(
+      'Show on the map',
+      name: 'map_overview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message(
+      'All',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Car Locations Details`
+  String get car_locations_details {
+    return Intl.message(
+      'Car Locations Details',
+      name: 'car_locations_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Car Main Information`
+  String get car_main_info {
+    return Intl.message(
+      'Car Main Information',
+      name: 'car_main_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap for live location`
+  String get tap_to_see_car_live_location {
+    return Intl.message(
+      'Tap for live location',
+      name: 'tap_to_see_car_live_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Language`
+  String get change_language {
+    return Intl.message(
+      'Change Language',
+      name: 'change_language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coming soon`
+  String get coming_soon {
+    return Intl.message(
+      'Coming soon',
+      name: 'coming_soon',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Translations> {

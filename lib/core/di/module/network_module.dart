@@ -18,44 +18,42 @@ abstract class NetworkModule {
   Dio get dio {
     final dio = Dio();
     dio
-          ..options.baseUrl = Endpoints.baseUrl.value
-          ..options.connectTimeout = EndpointsConfig.connectionTimeout
-          ..options.receiveTimeout = EndpointsConfig.receiveTimeout
-          ..options.headers = EndpointsConfig.defaultHeaderValues
-          ..interceptors.add(AuthInterceptor(dio))
-          ..interceptors.add(
-            InterceptorsWrapper(
-              onRequest: (RequestOptions options,
-                  RequestInterceptorHandler handler) async {
-                return handler.next(options);
-              },
-            ),
-          )
+      ..options.baseUrl = Endpoints.baseUrl.value
+      ..options.connectTimeout = EndpointsConfig.connectionTimeout
+      ..options.receiveTimeout = EndpointsConfig.receiveTimeout
+      ..options.headers = EndpointsConfig.defaultHeaderValues
+      ..interceptors.add(AuthInterceptor())
+      ..interceptors.add(
+        InterceptorsWrapper(
+          onRequest: (RequestOptions options,
+              RequestInterceptorHandler handler) async {
+            return handler.next(options);
+          },
+        ),
+      )
 
-        /// pretty logging for our http request and response
+      /// pretty logging for our http request and response
       ..interceptors.add(PrettyDioLogger(
           requestHeader: true,
           requestBody: true,
           responseBody: false,
           responseHeader: false,
           error: true,
-          logPrint: (o)=>debugPrint(o.toString()),
+          logPrint: (o) => debugPrint(o.toString()),
           compact: true,
-          maxWidth: 250))
-        ;
+          maxWidth: 250));
 
     return dio;
   }
 }
 
 class AuthInterceptor extends Interceptor {
-  final Dio _dio;
 
   bool isInvalidSession = false;
 
   // helper class to access your local storage
 
-  AuthInterceptor(this._dio);
+  AuthInterceptor();
 
   @override
   void onRequest(
@@ -76,7 +74,7 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401 ||
         err.response?.statusCode == 402 ||
         err.response?.statusCode == 403) {
-      const loginRoute = AppRoutes.login;
+      const loginRoute = AppRoutes.adminLoginPage;
       bool isNewRouteSameAsCurrent = false;
       Navigator.popUntil(
           findDep<AppNavigationService>().navigatorKey.currentContext!,
@@ -89,7 +87,7 @@ class AuthInterceptor extends Interceptor {
       if (!isNewRouteSameAsCurrent) {
         Navigator.pushNamed(
           findDep<AppNavigationService>().navigatorKey.currentContext!,
-          AppRoutes.login,
+          AppRoutes.adminLoginPage,
         );
         isInvalidSession = true;
       }

@@ -8,7 +8,12 @@ class AppDurations {
   static const int splashAnimationDuration = 2000;
   static const int splashAnimationDelay = 200;
   static const int shortAnimationDuration = 225;
+  static const int shortAnimationDelay = 333;
+  static const int longAnimationDelay = 666;
+  static const int animationDuration_666 = 666;
+  static const int longerAnimationDelay = 2000;
   static const int longAnimationDuration = 999;
+  static const int longerAnimationDuration = 2500;
 
 
   static const int defaultDialogAnimationDuration = 750;

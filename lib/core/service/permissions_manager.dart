@@ -1,4 +1,4 @@
-import 'dart:io' as IO;
+import 'dart:io' as io;
 
 
 
@@ -21,7 +21,7 @@ class PermissionsManager {
   final _pref = findDep<SharedPreferenceHelper>();
 
   Future<List<Permission>> get _bluetoothPermission async {
-    final sdkInt = IO.Platform.isAndroid
+    final sdkInt = io.Platform.isAndroid
         ? (await DeviceInfoPlugin().androidInfo).version.sdkInt
         : -1;
 
@@ -30,7 +30,7 @@ class PermissionsManager {
         : [Permission.locationWhenInUse];
     final iOSPermissions = [Permission.bluetooth];
 
-    return IO.Platform.isAndroid ? androidPermissions : iOSPermissions;
+    return io.Platform.isAndroid ? androidPermissions : iOSPermissions;
   }
 
 

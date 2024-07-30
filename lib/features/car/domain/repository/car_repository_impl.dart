@@ -1,3 +1,4 @@
+import 'package:car_tracking_app/core/service/logger_service.dart';
 import 'package:car_tracking_app/features/car/data/datasource/car_datasource.dart';
 import 'package:car_tracking_app/features/car/data/models/car_model.dart';
 import 'package:car_tracking_app/features/car/domain/entity/car_entity.dart';
@@ -8,13 +9,13 @@ import 'package:car_tracking_app/core/repository/base_repository.dart';
 
 @LazySingleton()
 class CarRepositoryImpl extends BaseRepository implements CarRepository {
-  CarDatasource _datasource;
+  final CarDatasource _datasource;
 
   CarRepositoryImpl(this._datasource);
 
   @override
   Future<void> addCar(CarModel car, String id) async {
-    await _datasource.addCar(car, id);
+    await _datasource.addCar(car: car, id: id);
   }
 
   @override
@@ -27,5 +28,15 @@ class CarRepositoryImpl extends BaseRepository implements CarRepository {
   Stream<List<CarEntity>> getListOfCarsAsStream() {
     return _datasource.getListOfCarsAsStream().map((carModels) =>
         carModels.map((carModel) => carModel.toEntity()).toList());
+  }
+
+  @override
+  Stream<CarEntity> getCarAsStream(String id) {
+    try {
+      return _datasource.getCarAsStream(id).map((model) => model!.toEntity());
+    } catch (e, s) {
+      LoggerService().logError(e.toString(), e, s);
+      rethrow;
+    }
   }
 }

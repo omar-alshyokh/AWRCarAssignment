@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:car_tracking_app/core/constants/app_assets.dart';
 import 'package:car_tracking_app/core/constants/app_colors.dart';
 import 'package:car_tracking_app/core/constants/app_constants.dart';
@@ -9,7 +7,7 @@ import 'package:car_tracking_app/core/utils/device_utils.dart';
 import 'package:car_tracking_app/core/utils/snackbar_utils.dart';
 import 'package:car_tracking_app/core/widgets/common/app_loading_indicator.dart';
 import 'package:car_tracking_app/core/widgets/common/app_map_widget.dart';
-import 'package:car_tracking_app/core/widgets/common/custom_app_bar.dart';
+import 'package:car_tracking_app/core/widgets/common/base_stateful_app_widget.dart';
 import 'package:car_tracking_app/features/car/domain/entity/car_entity.dart';
 import 'package:car_tracking_app/features/map/presentation/bloc/overview_mab/map_bloc.dart';
 import 'package:car_tracking_app/features/map/presentation/widgets/map_car_horizontal_list.dart';
@@ -18,14 +16,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapLocationsOverviewPage extends StatefulWidget {
+class MapLocationsOverviewPage extends BaseAppStatefulWidget {
   const MapLocationsOverviewPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MapLocationsOverviewPageState();
+  BaseAppState<BaseAppStatefulWidget> createBaseState() =>
+      _MapLocationsOverviewPageState();
 }
 
-class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
+class _MapLocationsOverviewPageState
+    extends BaseAppState<MapLocationsOverviewPage> {
   late GoogleMapController _mapController;
   int _selectedIndex = 0;
   final PageController _pageController = PageController(viewportFraction: 0.8);
@@ -68,7 +68,7 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
     final Marker marker = Marker(
         markerId: MarkerId(car.id),
         position:
-        LatLng(car.currentLocationLatitude, car.currentLocationLongitude),
+            LatLng(car.currentLocationLatitude, car.currentLocationLongitude),
         icon: BitmapDescriptor.fromBytes(markerIcon),
         infoWindow: InfoWindow(
           title: car.name,
@@ -96,7 +96,7 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
         imgPath = AppAssets.carMarkerUnknown;
     }
     Uint8List newMarker =
-    await getBytesFromAsset(imgPath, 65); // size of custom image as marker;
+        await getBytesFromAsset(imgPath, 65); // size of custom image as marker;
 
     return newMarker;
   }
@@ -109,20 +109,21 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
     );
   }
 
-  void _onMarkerTap(int index) async{
+  void _onMarkerTap(int index) async {
     if (mounted) {
       setState(() {
         _carListVisible = true;
       });
     }
 
-   await Future.delayed(const Duration(microseconds: AppDurations.shortAnimationDuration));
+    await Future.delayed(
+        const Duration(microseconds: AppDurations.shortAnimationDuration));
 
-    if(_pageController.hasClients){
+    if (_pageController.hasClients) {
       _pageController.animateToPage(
         index,
         duration:
-        const Duration(milliseconds: AppDurations.shortAnimationDuration),
+            const Duration(milliseconds: AppDurations.shortAnimationDuration),
         curve: Curves.easeInOut,
       );
     }
@@ -134,17 +135,14 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
     double margins = 0.1013 * width;
     final appBar = AppBar(
       systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: AppColors.primaryOrangeColor,
-          statusBarIconBrightness: Brightness.light),
+          statusBarColor: AppColors.white,
+          statusBarIconBrightness: Brightness.dark),
       toolbarHeight: 0,
     );
 
     final double height = DeviceUtils.getScaledHeight(context, 1) -
         appBar.preferredSize.height -
-        MediaQuery
-            .of(context)
-            .viewPadding
-            .top -
+        MediaQuery.of(context).viewPadding.top -
         margins;
 
     return Scaffold(
@@ -158,6 +156,12 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
               createMarkersInProgress = false;
               if (mounted) setState(() {});
             });
+
+            if (state.latLngBounds != null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                latLngBoundsMapPosition(state.latLngBounds!);
+              });
+            }
           } else if (state is GetCarsLocationFailed) {
             SnackBarUtil.showErrorAlert(error: state.error, context: context);
           }
@@ -178,6 +182,7 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
                     zoom: AppConstants.initialCameraZoom,
                   ),
                   markers: markers.toSet(),
+                  zoomControlsEnabled: false,
                   onTap: (_) {
                     if (mounted) {
                       setState(() {
@@ -192,8 +197,8 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
                     visible: createMarkersInProgress,
                     child: const Center(
                         child: AppLoader(
-                          iconColor: AppColors.primaryOrangeColor,
-                        ))),
+                      iconColor: AppColors.primaryOrangeColor,
+                    ))),
 
                 Positioned(
                   bottom: 0,
@@ -204,7 +209,7 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
                     controller: _pageController,
                     cars: state.cars,
                     width: width,
-                    height: height,
+                    height: height * .3,
                     visible: _carListVisible,
                     onPageChanged: (index) {
                       setState(() {
@@ -225,6 +230,12 @@ class _MapLocationsOverviewPageState extends State<MapLocationsOverviewPage> {
         },
       ),
     );
+  }
+
+  void latLngBoundsMapPosition(LatLngBounds lngBounds,
+      {double padding = 14.0}) async {
+    await _mapController
+        .animateCamera(CameraUpdate.newLatLngBounds(lngBounds, padding));
   }
 
   String _carStatusString(int status) {

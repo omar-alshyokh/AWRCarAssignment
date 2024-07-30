@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:car_tracking_app/core/constants/app_colors.dart';
 import 'package:car_tracking_app/core/constants/app_radius.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class AppInkWellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      shadowColor: splashAppInkWellColor,
+      shadowColor: splashAppInkWellColor ?? AppColors.transparent,
       child: InkWell(
         onTap: onTap,
         onLongPress: onLongPress,

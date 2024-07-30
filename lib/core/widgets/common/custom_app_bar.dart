@@ -12,20 +12,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.automaticallyImplyLeading = true,
       this.customTitle,
       this.backgroundColor,
+      this.titleColor,
       this.statusBarColor,
       this.onBack,
       this.actions,
       this.systemUiOverlayStyle,
       this.toolbarHeight,
+      this.centerTitle,
       this.backColor = AppColors.black,
       this.enableBackAction = false});
 
   final String? title;
   final double? toolbarHeight;
   final bool automaticallyImplyLeading;
+  final bool? centerTitle;
   final Widget? customTitle;
   final List<Widget>? actions;
   final Color? backgroundColor;
+  final Color? titleColor;
   final Color? statusBarColor;
   final Color backColor;
   final VoidCallback? onBack;
@@ -49,7 +53,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               statusBarIconBrightness: Brightness.dark),
       shadowColor: Colors.transparent,
       elevation: 0,
-      centerTitle: automaticallyImplyLeading,
+      centerTitle: centerTitle?? automaticallyImplyLeading,
       actions: customActions,
       toolbarHeight: toolbarHeight ?? (customTitle != null ? 85 : null),
       automaticallyImplyLeading: automaticallyImplyLeading,
@@ -74,6 +78,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: customTitle ??
           _CustomAppBarTextWidget(
             title: title??"",
+            titleColor:titleColor,
             titleLeftPadding: leftPadding,
             fontSize: automaticallyImplyLeading
                 ? AppTextSize.normal
@@ -98,18 +103,20 @@ class _CustomAppBarTextWidget extends StatelessWidget {
     required this.title,
     required this.titleLeftPadding,
     required this.fontSize,
+    this.titleColor,
   });
 
   final String title;
   final double titleLeftPadding;
   final double fontSize;
+  final Color? titleColor;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> titleColumn = [
       Text(title,
           style: appTextStyle.subBigTSBasic.copyWith(
-              fontSize: fontSize, color: AppColors.primaryOrangeColor)),
+              fontSize: fontSize, color:titleColor?? AppColors.primaryOrangeColor)),
     ];
 
     return Padding(
